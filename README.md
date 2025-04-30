@@ -36,7 +36,7 @@ cd xarit
 Then, compile it: 
 
 ```bash
-g++ main.cpp source/utils/*  source/routes/* source/parser.cpp -o xarit -lqrencode -lpthread
+g++ core/main.cpp core/source/utils/*  core/source/routes/* core/source/parser.cpp -o xarit -lqrencode -lpthread
 ```
 
 After, create simbolic link in your /usr/bin (or somewhere in your path)
