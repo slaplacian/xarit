@@ -18,12 +18,6 @@ void recursive_browser(const httplib::Request& req, httplib::Response& res) {
         }
     
     } else {
-        
-        if (path.parent_path() != fs::canonical(shared_directory)) {
-            res.status = 403;
-            res.set_content("Access to subdirectories is not allowed", "text/plain");
-            return;
-        }
 
         if (!fs::exists(path)) {
             res.status = 404;
