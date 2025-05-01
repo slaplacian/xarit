@@ -5,11 +5,20 @@
 void recursive_browser(const httplib::Request& req, httplib::Response& res) {
 
     std::string rel_path = req.matches[1];
-    fs::path path = fs::weakly_canonical(fs::path(shared_directory) / rel_path);
+    fs::path path = fs::weakly_canonical(fs::path(".") / rel_path);
+    fs::path shared_path = fs::weakly_canonical(fs::path(".") / shared_directory);
+
+    std::size_t size = shared_path.string().size();
+    std::string subpath = path.string().substr(0,size); 
+    
+    if(subpath != shared_path.string()) {
+        res.status = 403;
+        res.set_content("Forbidden","text/plain");
+        return;
+    }
 
     if(!recursive_mode) {
-
-        if(validate_file(path.filename().string())) {
+        if(validate_file(path.string())) {
             send_file(res,path);
         } else {
             res.status = 404;
@@ -37,6 +46,7 @@ void recursive_browser(const httplib::Request& req, httplib::Response& res) {
         } else {
             res.status = 403;
             res.set_content("Forbidden", "text/plain");
+            return;
         }
 
     }
