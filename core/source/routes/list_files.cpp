@@ -21,6 +21,7 @@ void list_files(const httplib::Request& req, httplib::Response& res) {
     }
 
     std::string dir = shared_directory;
+    
     if (req.has_param("path") && recursive_mode) {
         dir = req.get_param_value("path");
     }
@@ -49,9 +50,16 @@ void list_files(const httplib::Request& req, httplib::Response& res) {
     html += "</ul>";
 
     if (allow_upload) {
+
+        std::string upload_url = "/upload";
+
+        if(recursive_mode) {
+            upload_url += "?path=" + dir;
+        }
+
         html += "<h2>Upload File</h2><form id='uploadForm' action='/upload' method='post' enctype='multipart/form-data'>";
         html += "<input type='file' name='file'><br><input type='submit' value='Upload'>";
-        html += "<script>document.getElementById('uploadForm').onsubmit = async function(event) { event.preventDefault(); const formData = new FormData(this); const response = await fetch('/upload', { method: 'POST', body: formData }); if(response.ok) location.reload(); };</script>";
+        html += "<script>document.getElementById('uploadForm').onsubmit = async function(event) { event.preventDefault(); const formData = new FormData(this); const response = await fetch('" + upload_url + "', { method: 'POST', body: formData }); if(response.ok) location.reload(); };</script>";
         html += "</form>";
     }
 
