@@ -12,6 +12,7 @@ std::string get_help_message() {
         << "  -t, --time [SECONDS]      Run server for limited time\n"
         << "  -d, --download            Enable only download mode\n"
         << "  -u, --upload              Enable only upload mode\n"
+        << "  -o, --override            Enable override mode\n"
         << "  -D, --dir [DIR]           Set directory to share\n"
         << "  -f, --single-file [FILE]  Share only a specific file\n"
         << "  -r, --recursive           Enable recursive sharing (include subdirectories)\n"

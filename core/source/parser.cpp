@@ -10,6 +10,7 @@ std::string shared_directory = ".";
 std::string single_file = "";
 bool recursive_mode = false;
 std::string redirect_url = "";
+bool override_mode = false;
 
 void parse_arguments(int argc, char** argv) {
     for (int i = 1; i < argc; i++) {
@@ -24,6 +25,8 @@ void parse_arguments(int argc, char** argv) {
             allow_upload = false;
         } else if (arg == "-u" || arg == "--upload") {
             allow_download = false;
+        }else if (arg == "-o" || arg == "--override") {
+            override_mode = true;
         } else if ((arg == "-D" || arg == "--dir") && i + 1 < argc) {
             shared_directory = argv[++i];
         } else if ((arg == "-f" || arg == "--single-file") && i + 1 < argc) {
