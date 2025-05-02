@@ -20,9 +20,9 @@ void upload_file(const httplib::Request& req, httplib::Response& res) {
         std::cout << filename << std::endl;
     }
 
+    filename += file.filename;
+    
     if(!override_mode) {
-
-        filename += file.filename;
 
         std::cout << filename << " " << std::endl;
 
