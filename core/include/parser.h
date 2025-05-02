@@ -12,6 +12,7 @@ extern std::string shared_directory;
 extern std::string single_file;
 extern bool recursive_mode;
 extern std::string redirect_url;
+extern bool override_mode;
 
 void parse_arguments(int argc, char** argv);
 

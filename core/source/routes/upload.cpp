@@ -1,5 +1,7 @@
 #include "../../include/routes.h"
 #include "../../include/parser.h"
+#include "../../include/utils.h"
+#include <sstream>
 
 void upload_file(const httplib::Request& req, httplib::Response& res) {
     if (!allow_upload) {
@@ -18,7 +20,47 @@ void upload_file(const httplib::Request& req, httplib::Response& res) {
         std::cout << filename << std::endl;
     }
 
-    filename += file.filename;
+    if(!override_mode) {
+
+        filename += file.filename;
+
+        std::cout << filename << " " << std::endl;
+
+        int identificator = 0;
+        std::ostringstream oss;
+
+        std::size_t last_dir_pos = filename.find_last_of("/");
+        std::size_t last_dot     = filename.find_last_of(".");
+        std::string extension    = "";
+
+        bool applicable = last_dot != std::string::npos && (last_dir_pos == std::string::npos || last_dir_pos + 1 < last_dot);  
+
+        if(applicable) {
+            extension = filename.substr(last_dot);
+            std::cout << filename.size() << std::endl;
+            filename  = filename.substr(0,last_dot);
+        }
+
+        std::cout << extension << " " << filename << " " << std::endl;
+
+        oss << filename;
+
+        while(validate_file(oss.str()+extension)) {
+            oss.str("");
+            oss.clear();
+            std::cout << oss.str() << std::endl;
+            oss << filename << "_" << identificator++;
+            std::cout << extension << " " << filename << " " << std::endl;
+        }
+
+        std::cout << oss.str() << std::endl;
+
+        filename = oss.str();
+
+        if(applicable) {
+            filename += extension;
+        }
+    }
 
     std::ofstream ofs(filename, std::ios::binary);
     ofs.write(file.content.data(), file.content.size());
