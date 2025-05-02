@@ -17,14 +17,11 @@ void upload_file(const httplib::Request& req, httplib::Response& res) {
         std::string rel_path = req.get_param_value("path");
         fs::path path = fs::absolute(fs::current_path() / fs::path(shared_directory) / fs::path(rel_path));
         filename += path.string() + "/";
-        std::cout << filename << std::endl;
     }
 
     filename += file.filename;
     
     if(!override_mode) {
-
-        std::cout << filename << " " << std::endl;
 
         int identificator = 0;
         std::ostringstream oss;
@@ -37,23 +34,18 @@ void upload_file(const httplib::Request& req, httplib::Response& res) {
 
         if(applicable) {
             extension = filename.substr(last_dot);
-            std::cout << filename.size() << std::endl;
             filename  = filename.substr(0,last_dot);
         }
 
-        std::cout << extension << " " << filename << " " << std::endl;
 
         oss << filename;
 
         while(validate_file(oss.str()+extension)) {
             oss.str("");
             oss.clear();
-            std::cout << oss.str() << std::endl;
             oss << filename << "_" << identificator++;
-            std::cout << extension << " " << filename << " " << std::endl;
         }
 
-        std::cout << oss.str() << std::endl;
 
         filename = oss.str();
 
