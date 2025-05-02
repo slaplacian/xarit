@@ -1,5 +1,7 @@
 #include "../../include/routes.h"
 #include "../../include/parser.h"
+#include "../../include/utils.h"
+#include <sstream>
 
 void upload_file(const httplib::Request& req, httplib::Response& res) {
     if (!allow_upload) {
@@ -19,6 +21,12 @@ void upload_file(const httplib::Request& req, httplib::Response& res) {
     }
 
     filename += file.filename;
+
+    int identificator = 0;
+    while(validate_file(filename)) {
+        std::ostringstream oss;
+        oss << filename << " (" << identificator++ << ")";
+    }
 
     std::ofstream ofs(filename, std::ios::binary);
     ofs.write(file.content.data(), file.content.size());
