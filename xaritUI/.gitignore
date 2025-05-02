@@ -1,8 +1,3 @@
-xarit*
-!xaritUI
-.vscode
-
-
 *.iml
 .kotlin
 .gradle
