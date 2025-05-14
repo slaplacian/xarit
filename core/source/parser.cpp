@@ -29,7 +29,7 @@ void parse_arguments(int argc, char** argv) {
             override_mode = true;
         } else if ((arg == "-D" || arg == "--dir") && i + 1 < argc) {
             shared_directory = argv[++i];
-            if (!validate_file(shared_directory)) {
+            if (!validate_directory(shared_directory)) {
                 std::cerr << "This directory " + shared_directory + " does not exist!" << std::endl;
                 exit(1);
             }
