@@ -12,13 +12,17 @@ void upload_file(const httplib::Request& req, httplib::Response& res) {
     auto file = req.get_file_value("file");
 
     std::string filename = "";
-    
+    fs::path path;
+
     if (req.has_param("path") && recursive_mode) {
         std::string rel_path = req.get_param_value("path");
-        fs::path path = fs::absolute(fs::current_path() / fs::path(shared_directory) / fs::path(rel_path));
-        filename += path.string() + "/";
+        path = fs::absolute(fs::current_path() / fs::path(shared_directory) / fs::path(rel_path));
+    } else {
+        path = fs::absolute(fs::current_path() / fs::path(shared_directory));
     }
 
+    filename += path.string() + "/";
+    
     filename += file.filename;
     
     if(!override_mode) {
